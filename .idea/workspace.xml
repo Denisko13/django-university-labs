@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="296c3743-6ef0-4fc4-bef1-7e40b8f2cf30" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/DjangoProject2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mainapp/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/page.html" afterDir="false" />
-    </list>
+    <list default="true" id="296c3743-6ef0-4fc4-bef1-7e40b8f2cf30" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -140,12 +132,23 @@
       <workItem from="1773589141009" duration="8000" />
       <workItem from="1773589299217" duration="102000" />
       <workItem from="1773589436985" duration="24000" />
-      <workItem from="1773589741336" duration="3996000" />
+      <workItem from="1773589741336" duration="4332000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DjangoProject2$manage.coverage" NAME="manage Coverage Results" MODIFIED="1773590040381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
