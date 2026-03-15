@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Category, Product  # Підключаємо наші таблиці
 
 
@@ -37,5 +37,36 @@ def page2_view(request):
         'content': 'Наш телефон: +380000000000',
         'categories': categories,
         'is_home': False
+    }
+    return render(request, 'page.html', context)
+
+
+def category_view(request, category_id):
+    categories = Category.objects.all()
+    # Шукаємо категорію за її ID
+    category = get_object_or_404(Category, id=category_id)
+    # Фільтруємо товари: беремо ТІЛЬКИ ті, що належать до цієї категорії
+    products = Product.objects.filter(category=category)
+
+    context = {
+        'title': f'Категорія: {category.name}',
+        'categories': categories,
+        'category': category,
+        'products': products,
+        'is_category': True,  # Прапорець для шаблону
+    }
+    return render(request, 'page.html', context)
+
+
+def product_view(request, product_id):
+    categories = Category.objects.all()
+    # Шукаємо конкретний товар
+    product = get_object_or_404(Product, id=product_id)
+
+    context = {
+        'title': product.name,
+        'categories': categories,
+        'product': product,
+        'is_product': True,  # Прапорець для сторінки товару
     }
     return render(request, 'page.html', context)
