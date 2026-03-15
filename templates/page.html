@@ -3,21 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; }
+        /* Стилі для хедера */
+        header { background-color: #2c3e50; color: white; padding: 15px 30px; }
+        header a { color: #1abc9c; margin-right: 15px; text-decoration: none; font-weight: bold; }
+        header a:hover { color: white; }
+        .menu-categories { margin-top: 10px; padding-top: 10px; border-top: 1px solid #444; }
+
+        /* Стилі для контенту */
+        main { padding: 30px; min-height: 50vh; }
+        .product-card { background: white; border: 1px solid #ddd; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .price { color: #e74c3c; font-size: 1.2em; font-weight: bold; }
+        .buy-btn { background-color: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+
+        /* Стилі для футера */
+        footer { background-color: #34495e; color: #bdc3c7; text-align: center; padding: 25px; margin-top: 40px; }
+    </style>
 </head>
 <body>
-    <h1>{{ heading }}</h1>
-    <p>{{ content }}</p>
-    <hr>
 
-    {% if is_home %}
-        <h3>Посилання на інші сторінки:</h3>
-        <ul>
-            <li><a href="{% url 'page1' %}">Перейти на Сторінку 1</a></li>
-            <li><a href="{% url 'page2' %}">Перейти на Сторінку 2</a></li>
-        </ul>
-    {% else %}
-        <h3>Навігація:</h3>
-        <a href="{% url 'home' %}">⬅️ Повернутися на головну сторінку</a>
-    {% endif %}
+    <header>
+        <h2>🌙 Магазин Нічників</h2>
+        <nav>
+            <a href="{% url 'home' %}">🏠 Головна</a>
+            <a href="{% url 'page1' %}">ℹ️ Про нас</a>
+            <a href="{% url 'page2' %}">📞 Контакти</a>
+
+            <div class="menu-categories">
+                <span>Категорії товарів: </span>
+                {% for cat in categories %}
+                    <a href="#">{{ cat.name }}</a>
+                {% endfor %}
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% if is_home %}
+            <h1>Наш асортимент</h1>
+
+            {% for product in products %}
+                <div class="product-card">
+                    <h3>{{ product.name }}</h3>
+                    <p>Категорія: {{ product.category.name }}</p>
+                    <p class="price">{{ product.price }} грн</p>
+                    <button class="buy-btn">Купити</button>
+                </div>
+            {% empty %}
+                <p>Товарів поки немає. Додайте їх через адмінку!</p>
+            {% endfor %}
+
+        {% else %}
+            <h1>{{ heading }}</h1>
+            <p>{{ content }}</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <h3>Магазин найкращих нічників</h3>
+        <p>&copy; 2026 Всі права захищено.</p>
+        <p>Доставка по всій країні | Швидка підтримка</p>
+    </footer>
+
 </body>
 </html>
