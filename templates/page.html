@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ heading }}</h1>
+    <p>{{ content }}</p>
+    <hr>
+
+    {% if is_home %}
+        <h3>Посилання на інші сторінки:</h3>
+        <ul>
+            <li><a href="{% url 'page1' %}">Перейти на Сторінку 1</a></li>
+            <li><a href="{% url 'page2' %}">Перейти на Сторінку 2</a></li>
+        </ul>
+    {% else %}
+        <h3>Навігація:</h3>
+        <a href="{% url 'home' %}">⬅️ Повернутися на головну сторінку</a>
+    {% endif %}
+</body>
+</html>
