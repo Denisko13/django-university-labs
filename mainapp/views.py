@@ -9,15 +9,15 @@ def home_view(request):
 
     context = {
         'title': 'Головна - Магазин Нічників',
-        'categories': categories,  # Передаємо категорії в шаблон
-        'products': products,  # Передаємо товари в шаблон
+        'categories': categories,
+        'products': products,
         'is_home': True
     }
-    return render(request, 'page.html', context)
+    # Змінили 'page.html' на 'home.html'
+    return render(request, 'home.html', context)
 
 
 def page1_view(request):
-    # Для інших сторінок теж передаємо категорії, щоб меню працювало всюди
     categories = Category.objects.all()
     context = {
         'title': 'Про нас',
@@ -26,7 +26,8 @@ def page1_view(request):
         'categories': categories,
         'is_home': False
     }
-    return render(request, 'page.html', context)
+    # Змінили 'page.html' на 'info.html'
+    return render(request, 'info.html', context)
 
 
 def page2_view(request):
@@ -38,14 +39,13 @@ def page2_view(request):
         'categories': categories,
         'is_home': False
     }
-    return render(request, 'page.html', context)
+    # Змінили 'page.html' на 'info.html'
+    return render(request, 'info.html', context)
 
 
 def category_view(request, category_id):
     categories = Category.objects.all()
-    # Шукаємо категорію за її ID
     category = get_object_or_404(Category, id=category_id)
-    # Фільтруємо товари: беремо ТІЛЬКИ ті, що належать до цієї категорії
     products = Product.objects.filter(category=category)
 
     context = {
@@ -53,20 +53,21 @@ def category_view(request, category_id):
         'categories': categories,
         'category': category,
         'products': products,
-        'is_category': True,  # Прапорець для шаблону
+        'is_category': True,
     }
-    return render(request, 'page.html', context)
+    # Оскільки тут теж список товарів, використовуємо 'home.html'
+    return render(request, 'home.html', context)
 
 
 def product_view(request, product_id):
     categories = Category.objects.all()
-    # Шукаємо конкретний товар
     product = get_object_or_404(Product, id=product_id)
 
     context = {
         'title': product.name,
         'categories': categories,
         'product': product,
-        'is_product': True,  # Прапорець для сторінки товару
+        'is_product': True,
     }
-    return render(request, 'page.html', context)
+    # Змінили 'page.html' на 'product.html'
+    return render(request, 'product.html', context)

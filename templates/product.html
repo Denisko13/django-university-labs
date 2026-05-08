@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="product-detail-container">
+
+    <div class="product-detail-card">
+
+        <div class="product-detail-image">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="no-image-placeholder">Фото відсутнє</div>
+            {% endif %}
+        </div>
+
+        <div class="product-detail-info">
+            <h1 class="detail-title">{{ product.name }}</h1>
+
+            <p class="detail-category">
+                Категорія: <span>{{ product.category.name }}</span>
+            </p>
+
+            <div class="detail-price-box">
+                <span class="price-value">{{ product.price }} грн</span>
+            </div>
+
+            <div class="detail-description">
+                <h3>Опис товару</h3>
+                <p>
+                    {% if product.description %}
+                        {{ product.description }}
+                    {% else %}
+                        <span style="font-style: italic; opacity: 0.6;">Опис скоро буде додано...</span>
+                    {% endif %}
+                </p>
+            </div>
+
+            <button class="cart-btn">
+                <span class="icon">🛒</span> Додати в кошик
+            </button>
+        </div>
+    </div>
+
+    <div class="reviews-section">
+        <h2>Відгуки покупців ({{ product.reviews.count }})</h2>
+
+        <div class="reviews-list">
+            {% for review in product.reviews.all %}
+                <div class="review-item">
+                    <div class="review-header">
+                        <strong>{{ review.author }}</strong>
+                        <span class="review-date">{{ review.created_at|date:"d.m.Y" }}</span>
+                    </div>
+
+                    <div class="review-rating">
+                        {% for i in "12345" %}
+                            <span class="star {% if forloop.counter <= review.rating %}filled{% endif %}">★</span>
+                        {% endfor %}
+                    </div>
+
+                    <p class="review-text">{{ review.text }}</p>
+                </div>
+            {% empty %}
+                <p class="no-reviews">Поки що немає відгуків. Залиште свій першим!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

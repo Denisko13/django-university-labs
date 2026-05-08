@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="margin-bottom: 30px;">Всі нічники</h1>
+
+<div class="products-grid">
+    {% for product in products %}
+    <a href="{% url 'product_detail' product.id %}" class="product-card-link">
+        <div class="product-card">
+
+            <div class="product-img-container">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="product-img" alt="{{ product.name }}">
+                {% else %}
+                    <div style="display:flex; align-items:center; justify-content:center; height:100%; color:#555;">
+                        Немає фото
+                    </div>
+                {% endif %}
+            </div>
+
+            <h3>{{ product.name }}</h3>
+
+            <p class="price">{{ product.price }} грн</p>
+
+            <button class="buy-btn">Купити</button>
+        </div>
+    </a>
+    {% empty %}
+        <p>Товарів поки що немає...</p>
+    {% endfor %}
+</div>
+{% endblock %}
