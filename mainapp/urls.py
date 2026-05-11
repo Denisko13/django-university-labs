@@ -1,6 +1,5 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
-
 urlpatterns = [
     path('', views.home_view, name='home'),
     path('info/', views.page1_view, name='info'),
@@ -14,4 +13,7 @@ urlpatterns = [
     path('cart/', views.cart_view, name='cart'),
     path('change-quantity/<int:item_id>/<str:action>/', views.change_quantity, name='change_quantity'),
     path('checkout/', views.checkout, name='checkout'),
+    path('accounts/', include('django.contrib.auth.urls')), # Вбудовані логін/логаут/паролі
+    path('register/', views.register, name='register'),     # Наша реєстрація
+    path('profile/', views.profile, name='profile'),        # Наш особистий кабінет
 ]

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="product-detail-container">
+    <div class="product-detail-card">
+        <h1 class="detail-title">👤 {{ title }}</h1>
+        <p style="color: #bdc3c7; margin-bottom: 30px;">Вітаємо, <strong>{{ user.username }}</strong>!</p>
+        
+        <h3 style="color: #f1c40f; margin-bottom: 20px;">Історія замовлень:</h3>
+        
+        {% if orders %}
+            <table style="width: 100%; border-collapse: collapse; color: #ecf0f1;">
+                <thead>
+                    <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); text-align: left; color: #7f8c8d;">
+                        <td style="padding: 10px;">№ Замовлення</td>
+                        <td style="padding: 10px;">Дата</td>
+                        {% if user.is_superuser %}
+                            <td style="padding: 10px;">Клієнт</td>
+                        {% endif %}
+                        <td style="padding: 10px;">Сума</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 15px;">#{{ order.id }}</td>
+                            <td style="padding: 15px;">{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                            {% if user.is_superuser %}
+                                <td style="padding: 15px; color: #3498db;">{{ order.first_name }} {{ order.last_name }}</td>
+                            {% endif %}
+                            <td style="padding: 15px; color: #f1c40f;">{{ order.get_total_price }} грн</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="color: #7f8c8d;">У вас ще немає завершених замовлень.</p>
+        {% endif %}
+    <a href="{% url 'password_change' %}" style="color: #3498db; text-decoration: underline;">Змінити пароль</a>
+    </div>
+</div>
+{% endblock %}

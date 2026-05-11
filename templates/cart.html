@@ -48,7 +48,12 @@
 
             <div style="margin-top: 30px; text-align: right;">
                 <h2 style="color: #f1c40f;">Загалом: {{ order.get_total_price }} грн</h2>
-                <a href="{% url 'checkout' %}" class="cart-btn" style="display: inline-block; text-decoration: none;">📦 Оформити замовлення</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'checkout' %}" class="cart-btn" style="display: inline-block; text-decoration: none;">📦 Оформити замовлення</a>
+                {% else %}
+                    <button type="button" class="cart-btn" onclick="openAuthModal()" style="cursor: pointer; border: none; font-family: inherit;">📦 Оформити замовлення</button>
+                {% endif %}
             </div>
         {% else %}
             <div style="text-align: center; padding: 50px;">
@@ -58,4 +63,67 @@
         {% endif %}
     </div>
 </div>
+
+<div id="authModal" class="modal-overlay" style="display: none;">
+    <div class="product-detail-card modal-content" style="max-width: 400px; text-align: center;">
+        <span class="close-modal" onclick="closeAuthModal()">&times;</span>
+        <h2 style="color: #f1c40f; margin-bottom: 15px;">Майже готово! ✨</h2>
+        <p style="color: #ecf0f1; margin-bottom: 25px; line-height: 1.5;">
+            Щоб оформити замовлення та зберегти його в історії, будь ласка, увійдіть у свій акаунт.
+        </p>
+
+        <div style="display: flex; gap: 15px; flex-direction: column;">
+            <a href="{% url 'login' %}?next={% url 'checkout' %}" class="cart-btn" style="text-decoration: none; text-align: center;">Увійти</a>
+            <a href="{% url 'register' %}" style="color: #bdc3c7; text-decoration: none; font-size: 0.9em; margin-top: 10px;">Ще не маю акаунту (Реєстрація)</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.modal-content {
+    position: relative;
+    padding: 40px !important;
+    border: 1px solid rgba(241, 196, 15, 0.3);
+    animation: fadeInScale 0.3s ease-out;
+}
+@keyframes fadeInScale {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.close-modal {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 28px;
+    color: #7f8c8d;
+    cursor: pointer;
+}
+.close-modal:hover { color: #fff; }
+</style>
+
+<script>
+function openAuthModal() {
+    document.getElementById('authModal').style.display = 'flex';
+}
+function closeAuthModal() {
+    document.getElementById('authModal').style.display = 'none';
+}
+// Закриття вікна, якщо клікнути на темний фон
+window.onclick = function(event) {
+    let modal = document.getElementById('authModal');
+    if (event.target == modal) {
+        closeAuthModal();
+    }
+}
+</script>
 {% endblock %}
