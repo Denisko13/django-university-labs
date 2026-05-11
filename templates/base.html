@@ -3,41 +3,66 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-
     <div class="container">
-
         <header>
-            <h2>🌙 Магазин Нічників</h2>
-            <nav>
-                <a href="{% url 'home' %}">🏠 Головна</a>
-                <a href="{% url 'page1' %}">ℹ️ Про нас</a>
-                <a href="{% url 'page2' %}">📞 Контакти</a>
+            <div class="header-top">
+                <h2><a href="{% url 'home' %}" class="logo-link">🌙 Магазин Нічників</a></h2>
+                <div class="header-right">
+                  <a href="{% url 'cart' %}" class="cart-link-btn">
+    🛒 КОШИК
+    {% if cart_total_quantity > 0 %}
+        <span class="cart-badge">{{ cart_total_quantity }}</span>
+    {% endif %}
+</a>
+                </div>
+            </div>
 
-               <div class="menu-categories">
-                   <span>Категорії: </span>
-                   {% for cat in categories %}
-                       <a href="{% url 'category_detail' cat.id %}" title="{{ cat.name }}">
-                            {{ cat.name }}
-                       </a>
-                    {% endfor %}
-               </div>
+            <nav class="main-nav">
+                <a href="{% url 'home' %}">🏠 Головна</a>
+                <a href="{% url 'info' %}">ℹ Про нас</a>
+                <a href="{% url 'contacts' %}">📞 Контакти</a>
             </nav>
+
+            <div class="menu-categories">
+                <span>Категорії:</span>
+                <div class="categories-list">
+                    {% for cat in categories %}
+                        <a href="{% url 'category' cat.id %}" class="category-pill">{{ cat.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
         </header>
 
         <main>
-            {% block content %}
-            {% endblock %}
+            {% if messages %}
+                <div class="messages-container">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
         </main>
 
-        <footer>
-            <p>&copy; 2026 Всі права захищено. Магазин нічників.</p>
+        <footer class="site-footer">
+            <div class="newsletter-section">
+                <h3>Дізнавайтеся про нові нічники першими!</h3>
+                <form action="{% url 'subscribe_newsletter' %}" method="POST" class="newsletter-form">
+                    {% csrf_token %}
+                    <input type="email" name="email" placeholder="Ваш Email..." required>
+                    <button type="submit" class="cart-btn">Підписатися</button>
+                </form>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Магазин Нічників. ТФК ЛНТУ. Всі права захищено.</p>
+            </div>
         </footer>
-
     </div>
-
 </body>
 </html>

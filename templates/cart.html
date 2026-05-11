@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="product-detail-container">
+    <div class="product-detail-card">
+        <h1 class="detail-title">🛒 Мій кошик</h1>
+        <hr style="opacity: 0.1; margin-bottom: 30px;">
+
+        {% if order and order.items.count > 0 %}
+            <table style="width: 100%; border-collapse: collapse; color: #ecf0f1;">
+                <thead>
+                    <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); text-align: left; font-weight: bold; color: #7f8c8d;">
+                        <td style="padding: 15px;">Товар</td>
+                        <td style="padding: 15px;">Ціна</td>
+                        <td style="padding: 15px; text-align: center;">Кількість</td>
+                        <td style="padding: 15px;">Сума</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in order.items.all %}
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 15px;">
+                                <div class="cart-product-name" title="{{ item.product.name }}">
+                                    {{ item.product.name }}
+                                </div>
+                            </td>
+
+                            <td style="padding: 15px;">{{ item.product.price }} грн</td>
+
+                            <td style="padding: 15px;">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                    <a href="{% url 'change_quantity' item.id 'minus' %}"
+                                       style="background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 5px; color: white; text-decoration: none;">-</a>
+
+                                    <span style="font-weight: bold; font-size: 1.1em; min-width: 20px; text-align: center;">{{ item.quantity }}</span>
+
+                                    <a href="{% url 'change_quantity' item.id 'plus' %}"
+                                       style="background: #f1c40f; padding: 5px 12px; border-radius: 5px; color: #0f2027; font-weight: bold; text-decoration: none;">+</a>
+                                </div>
+                            </td>
+
+                            <td style="padding: 15px; color: #f1c40f; font-weight: bold;">{{ item.get_total }} грн</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div style="margin-top: 30px; text-align: right;">
+                <h2 style="color: #f1c40f;">Загалом: {{ order.get_total_price }} грн</h2>
+                <a href="{% url 'checkout' %}" class="cart-btn" style="display: inline-block; text-decoration: none;">📦 Оформити замовлення</a>
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 50px;">
+                <h3 style="color: #7f8c8d;">Ваш кошик порожній... Поки що 🌙</h3>
+                <a href="{% url 'home' %}" class="cart-btn" style="display: inline-block; margin-top: 20px; text-decoration: none;">На головну</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

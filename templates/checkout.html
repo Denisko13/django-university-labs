@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="product-detail-container">
+    <div class="product-detail-card">
+        <h1 class="detail-title">📦 Оформлення замовлення</h1>
+        <hr style="opacity: 0.1; margin-bottom: 30px;">
+
+        <div style="display: flex; gap: 40px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <h3 style="color: #f1c40f; margin-bottom: 20px;">Ваші дані</h3>
+                <form method="POST" class="add-to-cart-form">
+                    {% csrf_token %}
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        {{ form.as_p }}
+                        <button type="submit" class="cart-btn" style="margin-top: 20px;">✅ Підтвердити замовлення</button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="flex: 1; min-width: 300px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                <h3 style="color: #ecf0f1; margin-bottom: 20px;">Ваше замовлення</h3>
+                <ul style="list-style: none; padding: 0; color: #7f8c8d;">
+    {% for item in order.items.all %}
+        <li style="margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+
+            <div style="display: flex; align-items: center; gap: 10px; overflow: hidden; padding-right: 15px;">
+                <span style="display: block; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ item.product.name }}">
+                    {{ item.product.name }}
+                </span>
+                <strong style="white-space: nowrap;">x {{ item.quantity }}</strong>
+            </div>
+
+            <span style="color: #f1c40f; font-weight: bold; white-space: nowrap;">{{ item.get_total }} грн</span>
+        </li>
+    {% endfor %}
+</ul>
+                <h2 style="text-align: right; margin-top: 20px; color: #f1c40f;">До сплати: {{ order.get_total_price }} грн</h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

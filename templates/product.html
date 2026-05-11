@@ -1,69 +1,105 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="product-detail-container">
+<div class="product-detail-card">
 
-    <div class="product-detail-card">
-
+    <div class="product-top-row">
         <div class="product-detail-image">
             {% if product.image %}
                 <img src="{{ product.image.url }}" alt="{{ product.name }}">
             {% else %}
-                <div class="no-image-placeholder">Фото відсутнє</div>
+                <div class="no-image-placeholder">Немає фото</div>
             {% endif %}
         </div>
 
         <div class="product-detail-info">
             <h1 class="detail-title">{{ product.name }}</h1>
 
-            <p class="detail-category">
-                Категорія: <span>{{ product.category.name }}</span>
-            </p>
-
-            <div class="detail-price-box">
-                <span class="price-value">{{ product.price }} грн</span>
+            <div class="rating-summary">
+                <span class="star-rating">★ {{ avg_rating|default:"0" }} / 5</span>
+                <span class="reviews-count">(на основі {{ product.reviews.count }} відгуків)</span>
             </div>
 
-            <div class="detail-description">
-                <h3>Опис товару</h3>
-                <p>
-                    {% if product.description %}
-                        {{ product.description }}
-                    {% else %}
-                        <span style="font-style: italic; opacity: 0.6;">Опис скоро буде додано...</span>
-                    {% endif %}
+            <p class="detail-category">Категорія: <span>{{ product.category.name }}</span></p>
+
+            <div style="margin-bottom: 20px;">
+                <p class="stock-info">
+                    Наявність:
+                    <strong style="color: {% if product.stock > 0 %}#2ecc71{% else %}#e74c3c{% endif %};">
+                        {% if product.stock > 0 %}{{ product.stock }} шт.{% else %}Немає в наявності{% endif %}
+                    </strong>
                 </p>
+                <div class="detail-price-box">
+                    <span class="price-value">{{ product.price }} грн</span>
+                </div>
             </div>
 
-            <button class="cart-btn">
-                <span class="icon">🛒</span> Додати в кошик
-            </button>
+            {% if product.stock > 0 %}
+            <form action="{% url 'add_to_cart' product.id %}" method="POST" class="add-to-cart-form">
+                {% csrf_token %}
+                <div class="quantity-selector" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                    <button type="button" onclick="changeQty(-1)" style="width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); cursor: pointer;">-</button>
+
+                    <input type="number" name="quantity" id="product-qty" value="1" min="1" max="{{ product.stock }}" readonly
+                           style="width: 60px; height: 40px; text-align: center; background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; font-weight: bold;">
+
+                    <button type="button" onclick="changeQty(1)" style="width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); cursor: pointer;">+</button>
+                </div>
+
+                <button type="submit" class="cart-btn">🛒 Додати в кошик</button>
+            </form>
+            {% endif %}
         </div>
     </div>
 
-    <div class="reviews-section">
-        <h2>Відгуки покупців ({{ product.reviews.count }})</h2>
+    <div class="detail-description">
+        <h3>Опис товару</h3>
+        <p>{{ product.description }}</p>
+    </div>
 
-        <div class="reviews-list">
-            {% for review in product.reviews.all %}
-                <div class="review-item">
-                    <div class="review-header">
-                        <strong>{{ review.author }}</strong>
-                        <span class="review-date">{{ review.created_at|date:"d.m.Y" }}</span>
-                    </div>
+</div>
 
-                    <div class="review-rating">
-                        {% for i in "12345" %}
-                            <span class="star {% if forloop.counter <= review.rating %}filled{% endif %}">★</span>
-                        {% endfor %}
-                    </div>
+<div class="reviews-section">
+    <h2>Відгуки покупців ({{ product.reviews.count }})</h2>
 
-                    <p class="review-text">{{ review.text }}</p>
-                </div>
-            {% empty %}
-                <p class="no-reviews">Поки що немає відгуків. Залиште свій першим!</p>
-            {% endfor %}
+    {% for review in product.reviews.all %}
+        <div class="review-item">
+            <div class="review-header">
+                <strong>{{ review.author }}</strong>
+                <span class="review-date">{{ review.created_at|date:"d.m.Y" }}</span>
+            </div>
+            <div class="review-rating">
+                {% for i in "12345" %}
+                    <span class="star {% if i|add:0 <= review.rating %}filled{% endif %}">★</span>
+                {% endfor %}
+            </div>
+            <p class="review-text">{{ review.text }}</p>
         </div>
+    {% empty %}
+        <p class="no-reviews">Будьте першим, хто залишить відгук! 🌙</p>
+    {% endfor %}
+
+    <div class="add-review-form" style="margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <h3 style="color: #f1c40f; margin-bottom: 20px;">Залишити відгук</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                {{ form.as_p }}
+                <button type="submit" class="cart-btn" style="width: fit-content;">Відправити відгук</button>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+function changeQty(delta) {
+    const input = document.getElementById('product-qty');
+    const max = parseInt(input.getAttribute('max'));
+    let newVal = parseInt(input.value) + delta;
+
+    if (newVal >= 1 && newVal <= max) {
+        input.value = newVal;
+    }
+}
+</script>
 {% endblock %}

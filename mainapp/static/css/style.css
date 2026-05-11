@@ -1,4 +1,4 @@
-/* --- 1. ЗАГАЛЬНІ СТИЛІ ТА ФОН --- */
+/* --- 1. ОСНОВА ТА ФОН (ТВІЙ ДИЗАЙН) --- */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0; padding: 0;
@@ -11,50 +11,88 @@ body {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
-/* --- 2. ШАПКА МАГАЗИНУ (GLASSMORPHISM) --- */
+a { text-decoration: none; color: inherit; } /* ПРИБИРАЄМО СИНІЙ КОЛІР */
+
+/* --- 2. ШАПКА (3 ПОВЕРХИ) --- */
 header {
     background: rgba(15, 32, 39, 0.85);
     backdrop-filter: blur(15px);
-    padding: 25px;
-    border-radius: 0 0 20px 20px;
+    padding: 25px 35px;
+    border-radius: 0 0 25px 25px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     margin-bottom: 30px;
 }
 
-header h2 {
-    margin: 0 0 20px 0;
-    color: #f1c40f;
-    text-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
-}
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
-header nav a {
-    color: #bdc3c7;
-    text-decoration: none;
-    margin-right: 20px;
+.logo-link {
+    color: #f1c40f !important;
+    font-size: 1.6em;
     font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.9em;
+    text-decoration: none;
+    /* Сяйво логотипу */
+    text-shadow: 0 0 15px rgba(241, 196, 15, 0.7),
+                 0 0 30px rgba(241, 196, 15, 0.3);
     transition: 0.3s;
 }
 
-header nav a:hover { color: #f1c40f; }
+.logo-link:hover {
+    text-shadow: 0 0 25px rgba(241, 196, 15, 0.9);
+}
 
-/* --- 3. КАТЕГОРІЇ (СТАБІЛЬНІ ТА ГНУЧКІ) --- */
+.cart-link-btn {
+    background: #f1c40f;
+    color: #0f2027 !important;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 800;
+    display: flex; gap: 8px; align-items: center;
+}
+
+.cart-badge {
+    background: #e74c3c; color: white;
+    font-size: 0.75em; padding: 2px 7px; border-radius: 10px;
+}
+
+/* --- ВИПРАВЛЕНА НАВІГАЦІЯ --- */
+.main-nav {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 10px; /* Трохи зменшив відступ */
+    /* ПРИБРАЛИ border-bottom ТУТ */
+}
+
+/* --- КАТЕГОРІЇ (ЗАЛИШАЄМО ОДНУ ЛІНІЮ ЗВЕРХУ) --- */
 .menu-categories {
-    margin-top: 20px;
+    margin-top: 10px; /* Зменшив відступ, щоб не було дірки */
     padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Ця лінія лишається головною */
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
+/* --- 3. КАТЕГОРІЇ (СТАБІЛЬНІ ТА ГНУЧКІ) --- */
+.menu-categories {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-wrap: wrap; /* Дозволяє категоріям переходити на новий рядок */
+    gap: 12px;       /* Відстань між кнопками */
+    align-items: center;
+}
+
+.menu-categories span {
+    color: #7f8c8d;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
 .menu-categories a {
     background: rgba(255, 255, 255, 0.07);
     color: #ecf0f1;
@@ -78,206 +116,347 @@ header nav a:hover { color: #f1c40f; }
     border-color: #f1c40f;
     transform: translateY(-2px);
 }
-
-/* --- 4. ВІТРИНА ТОВАРІВ (ГОЛОВНА СТОРІНКА) --- */
-main { flex-grow: 1; padding: 20px 0; }
-
-.products-grid {
+/* --- КАТЕГОРІЇ (ФІКС ЗЛИПАННЯ) --- */
+.menu-categories {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center;
+    flex-wrap: wrap; /* Дозволяє переносити на новий рядок */
+    gap: 12px;       /* Відстань між кнопками */
+    align-items: center;
 }
 
-.product-card-link { text-decoration: none; color: inherit; display: flex; transition: 0.4s; }
+.categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+/* КАТЕГОРІЇ: тепер вони точно не вилізуть */
+.category-pill {
+    background: rgba(255, 255, 255, 0.07);
+    color: #ecf0f1 !important;
+    padding: 6px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.82em;
+    transition: 0.3s;
+
+    /* МАГІЯ ТУТ: */
+    display: inline-block;
+    max-width: 140px;        /* Обмежуємо ширину кнопки */
+    white-space: nowrap;      /* Забороняємо перенос на новий рядок всередині кнопки */
+    overflow: hidden;         /* Ховаємо те, що не влізло */
+    text-overflow: ellipsis;  /* Додаємо трикрапку (...) */
+    vertical-align: middle;
+}
+
+/* НАЗВА ТОВАРУ У КАРТЦІ */
+.product-card h3 {
+    font-size: 1.1em;
+    margin: 15px 0 10px;
+    color: #f1c40f;
+
+    /* МАГІЯ ТУТ: */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;    /* Показувати максимум 2 рядки */
+    -webkit-box-orient: vertical;
+    overflow: hidden;         /* Ховаємо зайве */
+    word-break: break-all;    /* Якщо слово дуже довге (як твоє grewger...), воно розірветься і перенесеться */
+    height: 2.6em;            /* Фіксована висота, щоб картки не стрибали */
+}
+
+/* Назва у списку категорій у шапці (текст "Категорії:") */
+.menu-categories span {
+    color: #7f8c8d;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-transform: uppercase;
+    flex-shrink: 0; /* Щоб напис не стискався */
+}
+
+/* --- 3. ВІТРИНА ТОВАРІВ --- */
+.products-grid { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; padding: 20px 0; }
 
 .product-card {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 15px; border-radius: 15px;
-    width: 260px;
-    backdrop-filter: blur(10px);
-    display: flex; flex-direction: column;
-    transition: 0.3s;
+    padding: 15px; border-radius: 20px;
+    width: 260px; min-height: 420px;
+    display: flex; flex-direction: column; transition: 0.3s;
 }
 
-.product-card-link:hover .product-card {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(241, 196, 15, 0.15);
-    border-color: rgba(241, 196, 15, 0.4);
-}
+.product-card:hover { transform: translateY(-10px); border-color: rgba(241, 196, 15, 0.4); }
 
-/* Місце під фото на головній */
-.product-img-container {
-    width: 100%;
-    height: 180px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    margin-bottom: 15px;
-    overflow: hidden;
-}
-
+.product-img-container { width: 100%; height: 180px; border-radius: 12px; overflow: hidden; background: #000; }
 .product-img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Текст у картках на головній */
-.product-card h3 {
-    font-size: 1.1em; margin: 10px 0;
-    height: 2.6em; /* Резервуємо місце під 2 рядки */
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden; text-overflow: ellipsis;
-    word-break: break-all;
-}
+.product-card h3 { font-size: 1.1em; margin: 15px 0 5px; color: #f1c40f; }
 
-.price { color: #f1c40f; font-size: 1.3em; font-weight: bold; margin-bottom: 15px; }
+.price { color: #ecf0f1; font-size: 1.3em; font-weight: bold; margin-bottom: 15px; }
 
 .buy-btn {
-    background: linear-gradient(45deg, #8e44ad, #3498db);
-    color: white; border: none; padding: 12px; border-radius: 25px;
-    font-weight: bold; margin-top: auto; cursor: pointer;
+    background: linear-gradient(45deg, #f1c40f, #e67e22);
+    color: #0f2027 !important; text-align: center;
+    padding: 12px; border-radius: 12px; font-weight: bold; margin-top: auto;
 }
 
-/* --- 5. СТОРІНКА ДЕТАЛЕЙ ТОВАРУ (ФОТО ЗЛІВА, ТЕКСТ СПРАВА) --- */
+/* --- 4. ПОВІДОМЛЕННЯ ТА ФУТЕР --- */
+.messages-container { margin-bottom: 20px; }
+.message { padding: 15px 20px; border-radius: 12px; font-weight: bold; margin-bottom: 10px; }
+.message.success { background: rgba(46, 204, 113, 0.2); border-left: 5px solid #2ecc71; color: #2ecc71; }
+
+.site-footer { margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.1); padding: 50px 0; text-align: center; }
+
+.newsletter-form { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+.newsletter-form input {
+    padding: 12px 25px; border-radius: 30px; border: 1px solid #f1c40f;
+    background: rgba(0,0,0,0.3); color: white; width: 280px; outline: none;
+}
+
+.cart-btn {
+    background: linear-gradient(45deg, #f1c40f, #e67e22);
+    color: #0f2027; border: none; padding: 12px 30px;
+    font-weight: bold; border-radius: 30px; cursor: pointer;
+}
+/* КАРТКА ТОВАРУ: Основна обгортка */
 .product-detail-card {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 40px;
-    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column; /* Всередині блоки йдуть зверху вниз */
+}
+
+/* Гнучкий рядок для Фото та Інфо */
+.product-top-row {
+    display: flex;
+    flex-direction: row; /* СТАВИМО В РЯДОК */
+    gap: 50px;           /* Відстань між фото та текстом */
+    align-items: flex-start;
     margin-bottom: 40px;
 }
 
-@media (max-width: 850px) {
-    .product-detail-card { flex-direction: column; align-items: center; text-align: left; }
+/* Контейнер для фото (Ліва сторона) */
+.product-detail-image {
+    flex: 0 0 450px;     /* Фіксуємо ширину фото на 450px */
 }
 
-.product-detail-image { flex: 0 0 400px; }
 .product-detail-image img {
     width: 100%;
     border-radius: 20px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
 }
 
-.no-image-placeholder {
-    height: 300px; background: rgba(0,0,0,0.3); border-radius: 20px;
-    display: flex; align-items: center; justify-content: center; color: #7f8c8d;
+/* Блок інформації (Права сторона) */
+.product-detail-info {
+    flex: 1;             /* Займає все вільне місце справа */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.product-detail-info { flex: 1; display: flex; flex-direction: column; }
-
-.detail-title { font-size: 2.5em; color: #f1c40f; margin: 0 0 15px 0; word-break: break-word; }
-.detail-category { color: #bdc3c7; margin-bottom: 30px; font-size: 1.1em; }
-.detail-category span { color: #1abc9c; font-weight: bold; }
-
-.detail-price-box {
-    background: rgba(241, 196, 15, 0.1);
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 5px solid #f1c40f;
-    margin-bottom: 30px;
-    display: inline-block;
-    width: fit-content;
+/* Опис товару знизу */
+.detail-description {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 30px;
 }
 
-.price-value { font-size: 2em; font-weight: bold; color: #f1c40f; }
-
-/* ОПИС ТОВАРУ */
-.detail-description { margin-bottom: 25px; }
-
-.detail-description h3 {
-    color: #ecf0f1;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+/* Адаптивність: якщо екран малий, знову ставимо в колонку */
+@media (max-width: 850px) {
+    .product-top-row {
+        flex-direction: column;
+    }
+    .product-detail-image {
+        flex: 0 0 100%;
+    }
+}
+/* 1. ПРИБОРКУЄМО ДОВГІ СЛОВА (щоб не вилазили) */
+.detail-title, .detail-description p {
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
 }
 
-.detail-description p {
-    line-height: 1.7;
-    color: #bdc3c7;
-    font-size: 1.05em;
-    margin: 0;
-    word-break: break-word; /* Не дає довгим словам ламати сторінку */
-}
-
-/* КНОПКА КОШИКА */
-.cart-btn {
-    margin-top: auto; /* Штовхає кнопку в самий низ правого блоку */
-    align-self: flex-start;
-    background: linear-gradient(45deg, #f1c40f, #e67e22);
-    color: #0f2027;
-    border: none;
-    padding: 16px 40px;
+/* 2. ЗОЛОТІ ЗІРКИ */
+.star-rating {
+    color: #f1c40f;
     font-size: 1.2em;
     font-weight: bold;
-    border-radius: 40px;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 5px 25px rgba(241, 196, 15, 0.3);
+    text-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
+}
+
+/* 3. РЯДОК: ЦІНА + КНОПКА */
+.price-and-cart-row {
     display: flex;
+    align-items: center; /* Вирівнює по центру по вертикалі */
+    gap: 25px;           /* Відстань між ціною і кнопкою */
+    margin-top: 20px;
+}
+
+/* 4. ЗОЛОТА ЦІНА */
+.price-value {
+    color: #f1c40f;
+    font-size: 2.2em;
+    font-weight: bold;
+}
+
+/* 5. ФІКСУЄМО КНОПКУ (щоб не розтягувалася на весь екран) */
+.cart-btn {
+    display: inline-flex; /* Тільки по ширині тексту */
     align-items: center;
-    gap: 12px;
+    background: linear-gradient(45deg, #f1c40f, #e67e22);
+    color: #0f2027 !important;
+    padding: 14px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+    white-space: nowrap; /* Щоб напис не переносився */
 }
 
 .cart-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 30px rgba(241, 196, 15, 0.5);
-    background: linear-gradient(45deg, #f39c12, #d35400);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(241, 196, 15, 0.5);
 }
-
-/* --- 6. РОЗДІЛ ВІДГУКІВ --- */
+/* --- СТИЛЬ ВІДГУКІВ (ПОВЕРНЕННЯ КРАСИ) --- */
 .reviews-section {
+    margin-top: 50px;
+    padding: 30px;
     background: rgba(255, 255, 255, 0.03);
-    padding: 35px;
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    margin-bottom: 50px;
-}
-
-.reviews-section h2 {
-    color: #f1c40f;
-    margin-top: 0;
-    margin-bottom: 25px;
 }
 
 .review-item {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.05); /* Легкий фон картки */
     padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    border-left: 4px solid #3498db;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border-left: 5px solid #3498db; /* Той самий синій акцент */
+    transition: 0.3s;
+}
+
+.review-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
 }
 
 .review-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-.review-header strong { color: #ecf0f1; font-size: 1.1em; }
-.review-date { color: #7f8c8d; font-size: 0.85em; }
-
-.review-rating {
-    margin-bottom: 12px;
+.review-header strong {
     color: #f1c40f;
     font-size: 1.1em;
 }
 
-.review-text {
-    margin: 0;
-    line-height: 1.6;
-    color: #bdc3c7;
-    word-break: break-word; /* Страховка від абракадабри у відгуках */
+.review-date {
+    color: #7f8c8d;
+    font-size: 0.85em;
 }
 
-.no-reviews { color: #7f8c8d; font-style: italic; }
+.review-text {
+    line-height: 1.6;
+    color: #ecf0f1;
+    word-break: break-word;
+}
+/* Базовий колір порожньої зірки (тьмяний) */
+.star {
+    color: rgba(255, 255, 255, 0.15); /* Напівпрозорий білий */
+}
 
-/* --- 7. ПІДВАЛ --- */
-footer {
+/* Колір заповненої зірки (яскраво-жовтий) */
+.star.filled {
+    color: #f1c40f; /* Жовтий колір */
+    text-shadow: 0 0 8px rgba(241, 196, 15, 0.5); /* Ефект світіння */
+}
+
+/* --- СТИЛЬ ФОРМИ ВІДГУКУ --- */
+.add-review-form input[type="text"],
+.add-review-form input[type="number"],
+.add-review-form textarea,
+.add-review-form select {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    outline: none;
+    margin-top: 5px;
+}
+
+.add-review-form input:focus, .add-review-form textarea:focus {
+    border-color: #f1c40f;
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.2);
+}
+/* style.css */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.quantity-selector button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: 0.3s;
+}
+
+.quantity-selector button:hover { background: #f1c40f; color: #0f2027; }
+
+.quantity-selector input {
+    width: 60px;
+    height: 40px;
     text-align: center;
-    padding: 40px 0;
-    color: #7f8c8d;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    -moz-appearance: textfield; /* Прибираємо стандартні стрілочки */
+}
+.cart-product-name {
+    max-width: 200px;           /* Ширина приблизно як у "Розумні нічники (Smart)" */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+/* Стилі для форми оформлення замовлення */
+.add-to-cart-form input,
+.add-to-cart-form textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ecf0f1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: inherit;
+    margin-top: 5px;
+}
+
+.add-to-cart-form input:focus,
+.add-to-cart-form textarea:focus {
+    outline: none;
+    border-color: #f1c40f;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.add-to-cart-form p {
+    margin-bottom: 15px;
+    color: #bdc3c7;
     font-size: 0.9em;
 }

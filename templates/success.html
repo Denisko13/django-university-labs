@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="product-detail-container">
+    <div class="product-detail-card" style="text-align: center; padding: 50px;">
+        <h1 style="color: #2ecc71; font-size: 3em; margin-bottom: 20px;">🎉 Дякуємо!</h1>
+        <h2 style="color: #ecf0f1; margin-bottom: 20px;">Ваше замовлення успішно оформлено.</h2>
+        <p style="color: #7f8c8d; margin-bottom: 30px;">Ми зв'яжемося з вами найближчим часом для підтвердження деталей.</p>
+        
+        <a href="{% url 'home' %}" class="cart-btn" style="display: inline-block; text-decoration: none;">Повернутися до магазину</a>
+    </div>
+</div>
+{% endblock %}

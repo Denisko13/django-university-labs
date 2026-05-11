@@ -59,14 +59,15 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mainapp.context_processors.cart_total', # Твій новий процесор
             ],
         },
     },
 ]
-
 WSGI_APPLICATION = 'DjangoProject2.wsgi.application'
 
 
